@@ -12,3 +12,39 @@ const pagination = document.querySelector('[data-js="pagination"]');
 const maxPage = 1;
 const page = 1;
 const searchQuery = "";
+
+async function fetchCharacters() {
+  const url = "https://rickandmortyapi.com/api/character";
+  try {
+    const response = await fetch(url);
+    console.log("Response: ", response);
+
+    const data = await response.json();
+    console.log("Data: ", data);
+
+    if (!response.ok) {
+      throw new Error(`Request failed with status code: ${response.status}`);
+    }
+    return await data;
+  } catch (error) {
+    return { error: error.message };
+  }
+}
+/*play.addEventListener("click", async () => {
+	console.log("I am in the click event of Button Play");
+	const url = "http://deckofcardsapi.com/api/deck/new/draw/?count=2";
+
+	const response = await fetch(url);
+	console.log("response: ", response);
+
+	const data = await response.json(); // We are converting the data that the API send us (JSON) into JS.
+	console.log("data: ", data);
+
+	let cardSet = "";
+
+	if (!response.ok) {
+		console.error("Bad response", response.status);
+		cardSet = "Oops!Try again";
+		cardsDisplay.innerHTML = cardSet;
+		return;
+	}*/
