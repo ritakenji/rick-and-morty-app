@@ -30,6 +30,7 @@ async function fetchCharacters() {
     return { error: error.message };
   }
 }
+console.log(fetchCharacters());
 /*play.addEventListener("click", async () => {
 	console.log("I am in the click event of Button Play");
 	const url = "http://deckofcardsapi.com/api/deck/new/draw/?count=2";
