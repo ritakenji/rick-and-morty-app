@@ -16,34 +16,38 @@ const page = 1;
 const searchQuery = "";
 
 async function fetchCharacters() {
+  cardContainer.innerHTML = " ";
   const url = "https://rickandmortyapi.com/api/character";
   try {
     const response = await fetch(url);
-    /* console.log("Response: ", response); */
-
     const data = await response.json();
     console.log("Data: ", data);
+    const dataProperties = await data.results;
+    console.log(dataProperties);
+    dataProperties.forEach((element) => {
+      const {
+        image: imageSrc,
+        name: characterName,
+        status: characterDescription,
+        type: characterType,
+      } = element;
+      const characterOccurence = element.episode.length;
+      const newCard = createCharacterCard(
+        imageSrc,
+        characterName,
+        characterDescription,
+        characterType,
+        characterOccurence
+      );
+      cardContainer.append(newCard);
+    });
 
     if (!response.ok) {
       throw new Error(`Request failed with status code: ${response.status}`);
     }
-    return await data;
+    return await dataProperties;
   } catch (error) {
     return { error: error.message };
   }
 }
-const returnData = await fetchCharacters();
-
-/* console.log(fetchCharacters()); */
-
-const cardReturn = createCharacterCard(
-  "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
-  "Rick Sanchez",
-  "Rick Sanchez",
-  "Alive",
-  "placeholder",
-  "51"
-);
-cardContainer.append(cardReturn);
-console.log("---------------");
-console.log(returnData.results[0]);
+fetchCharacters();
