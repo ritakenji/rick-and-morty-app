@@ -23,16 +23,21 @@ async function fetchCharacters() {
 
     const data = await response.json();
     console.log("Data: ", data);
+    const dataProperties = await data.results;
+    dataProperties.forEach((element) => {
+      const imageSrc = element.image;
+      console.log("element.image: ", imageSrc);
+    });
 
     if (!response.ok) {
       throw new Error(`Request failed with status code: ${response.status}`);
     }
-    return await data;
+    return dataProperties;
   } catch (error) {
     return { error: error.message };
   }
 }
-const returnData = await fetchCharacters();
+fetchCharacters();
 
 /* console.log(fetchCharacters()); */
 
@@ -45,5 +50,3 @@ const cardReturn = createCharacterCard(
   "51"
 );
 cardContainer.append(cardReturn);
-console.log("---------------");
-console.log(returnData.results[0]);
