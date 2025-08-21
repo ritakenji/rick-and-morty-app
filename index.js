@@ -19,7 +19,7 @@ async function fetchCharacters() {
   const url = "https://rickandmortyapi.com/api/character";
   try {
     const response = await fetch(url);
-    console.log("Response: ", response);
+    /* console.log("Response: ", response); */
 
     const data = await response.json();
     console.log("Data: ", data);
@@ -32,8 +32,9 @@ async function fetchCharacters() {
     return { error: error.message };
   }
 }
-console.log(fetchCharacters());
-console.log(fetchCharacters());
+const returnData = await fetchCharacters();
+
+/* console.log(fetchCharacters()); */
 
 const cardReturn = createCharacterCard(
   "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
@@ -44,3 +45,5 @@ const cardReturn = createCharacterCard(
   "51"
 );
 cardContainer.append(cardReturn);
+console.log("---------------");
+console.log(returnData.results[0]);
