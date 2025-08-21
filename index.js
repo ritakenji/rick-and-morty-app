@@ -1,3 +1,5 @@
+import createCharacterCard from "./components/CharacterCard/CharacterCard.js";
+
 const cardContainer = document.querySelector('[data-js="card-container"]');
 const searchBarContainer = document.querySelector(
   '[data-js="search-bar-container"]'
@@ -17,7 +19,7 @@ async function fetchCharacters() {
   const url = "https://rickandmortyapi.com/api/character";
   try {
     const response = await fetch(url);
-    console.log("Response: ", response);
+    /* console.log("Response: ", response); */
 
     const data = await response.json();
     console.log("Data: ", data);
@@ -30,4 +32,18 @@ async function fetchCharacters() {
     return { error: error.message };
   }
 }
-console.log(fetchCharacters());
+const returnData = await fetchCharacters();
+
+/* console.log(fetchCharacters()); */
+
+const cardReturn = createCharacterCard(
+  "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+  "Rick Sanchez",
+  "Rick Sanchez",
+  "Alive",
+  "placeholder",
+  "51"
+);
+cardContainer.append(cardReturn);
+console.log("---------------");
+console.log(returnData.results[0]);
