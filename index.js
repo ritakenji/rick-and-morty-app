@@ -24,22 +24,27 @@ async function fetchCharacters() {
     const data = await response.json();
     console.log("Data: ", data);
     const dataProperties = await data.results;
+    console.log(dataProperties);
     dataProperties.forEach((element) => {
-      const imageSrc = element.image;
+      const {
+        image: imageSrc,
+        name: characterName,
+        status: characterDescription,
+        type: characterType,
+      } = element;
+      const characterOccurence = element.episode.length;
       console.log("element.image: ", imageSrc);
     });
 
     if (!response.ok) {
       throw new Error(`Request failed with status code: ${response.status}`);
     }
-    return dataProperties;
+    return await dataProperties;
   } catch (error) {
     return { error: error.message };
   }
 }
 fetchCharacters();
-
-/* console.log(fetchCharacters()); */
 
 const cardReturn = createCharacterCard(
   "https://rickandmortyapi.com/api/character/avatar/1.jpeg",

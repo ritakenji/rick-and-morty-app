@@ -1,6 +1,5 @@
 export default function createCharacterCard(
   imageSrc,
-  imageAlt,
   characterName,
   characterDescription,
   characterType,
@@ -10,7 +9,7 @@ export default function createCharacterCard(
   card.classList.add("card");
   card.innerHTML =
     '<div class="card__image-container">' +
-    `<img class="card__image" src="${imageSrc}" alt="${imageAlt}"/>` +
+    `<img class="card__image" src="${imageSrc}" alt="${characterName}"/>` +
     '<div class="card__image-gradient">' +
     "</div>" +
     "</div>" +
