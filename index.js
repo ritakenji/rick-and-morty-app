@@ -11,8 +11,8 @@ const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
 // States --> i changed the names of the variables here to make them more intuitive
-const maxPages = 1; // total is 'data.info.pages'
-const currentPage = 1;
+let maxPages = 1; // changed to let cause const cant be reassigned
+let currentPage = 1;
 const searchQuery = "";
 
 async function fetchCharacters() {
@@ -20,12 +20,15 @@ async function fetchCharacters() {
   const url =
     "https://rickandmortyapi.com/api/character" + `?page=${currentPage}`;
   try {
-    const response = await fetch(url);
-    const data = await response.json();
-    console.log(data);
-    /* const dataProperties = await data.results; */ //deleted this because 'data.results.forEach((ele...' reduces code
+    const response = await fetch(url); //Once this promise resolves (the network request is finished), we call the .json method on the response variable.
+    if (!response.ok) {
+      throw new Error(`Request failed with status code: ${response.status}`);
+    }
+    const data = await response.json(); //This second promise resolves with the actual data (payload) converted from JSON (a formatted string) to a JavaScript value or object. This result is stored in the variable named data.
 
+    // ***************************************** GET ELEMENTS & CREATE NEW CARD **************************************************************
     data.results.forEach((element) => {
+      /* const dataProperties = await data.results; */ //deleted this because 'data.results.forEach((ele...' reduces code
       const {
         image: imageSrc,
         name: characterName,
@@ -42,15 +45,21 @@ async function fetchCharacters() {
       );
       cardContainer.append(newCard);
     });
-    // ******************************** ERROR HANDLING
-    if (!response.ok) {
-      throw new Error(`Request failed with status code: ${response.status}`);
-    }
+
+    // *********************************************** ERROR HANDLING **************************************************************
+
     return data; //changed here dataProperties to data because we need the whole obj not just the properties to be returned for task4
   } catch (error) {
-    console.error("fetchData error:", error.message);
-    return { error };
+    console.error("Fetch error:", error.message);
+    cardContainer.innerHTML = `<p>Error: ${error.message}</p>`;
+    return { error: error.message };
   }
 }
 
-fetchCharacters();
+// *********************************************** PAGINATION *****************************************************************
+fetchCharacters().then((data) => {
+  // The 'data' variable here is the data returned by the promise.
+  maxPages = data.info.pages;
+
+  
+});
