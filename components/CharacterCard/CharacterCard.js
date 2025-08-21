@@ -1,1 +1,3 @@
-export function createCharacterCard() {}
+export default function createCharacterCard() {
+    const card = 
+}
