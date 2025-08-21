@@ -1,11 +1,16 @@
-import { createElement } from "react";
-
-export default function createCharacterCard() {
+export default function createCharacterCard(
+  imageSrc,
+  imageAlt,
+  characterName,
+  characterDescription,
+  characterType,
+  characterOccurrence
+) {
   const card = document.createElement("li");
   card.classList.add("card");
   card.innerHTML =
     '<div class="card__image-container">' +
-    `<img class="card__image" src=" ${imageSrc} " alt=""/>` +
+    `<img class="card__image" src="${imageSrc}" alt="${imageAlt}"/>` +
     '<div class="card__image-gradient">' +
     "</div>" +
     "</div>" +
@@ -28,4 +33,6 @@ export default function createCharacterCard() {
     "</dd>" +
     "</dl>" +
     "</div>";
+
+  return card;
 }

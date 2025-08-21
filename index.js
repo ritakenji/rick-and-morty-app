@@ -33,6 +33,14 @@ async function fetchCharacters() {
   }
 }
 console.log(fetchCharacters());
+console.log(fetchCharacters());
 
-
-const cardReturn = createCharacterCard();
+const cardReturn = createCharacterCard(
+  "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+  "Rick Sanchez",
+  "Rick Sanchez",
+  "Alive",
+  "placeholder",
+  "51"
+);
+cardContainer.append(cardReturn);
