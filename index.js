@@ -16,6 +16,7 @@ const page = 1;
 const searchQuery = "";
 
 async function fetchCharacters() {
+  cardContainer.innerHTML = " ";
   const url = "https://rickandmortyapi.com/api/character";
   try {
     const response = await fetch(url);
