@@ -31,21 +31,3 @@ async function fetchCharacters() {
   }
 }
 console.log(fetchCharacters());
-/*play.addEventListener("click", async () => {
-	console.log("I am in the click event of Button Play");
-	const url = "http://deckofcardsapi.com/api/deck/new/draw/?count=2";
-
-	const response = await fetch(url);
-	console.log("response: ", response);
-
-	const data = await response.json(); // We are converting the data that the API send us (JSON) into JS.
-	console.log("data: ", data);
-
-	let cardSet = "";
-
-	if (!response.ok) {
-		console.error("Bad response", response.status);
-		cardSet = "Oops!Try again";
-		cardsDisplay.innerHTML = cardSet;
-		return;
-	}*/
