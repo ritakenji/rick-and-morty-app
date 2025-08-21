@@ -10,21 +10,22 @@ const prevButton = document.querySelector('[data-js="button-prev"]');
 const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
-// States
-const maxPage = 1;
-const page = 1;
+// States --> i changed the names of the variables here to make them more intuitive
+const maxPages = 1; // total is 'data.info.pages'
+const currentPage = 1;
 const searchQuery = "";
 
 async function fetchCharacters() {
   cardContainer.innerHTML = " ";
-  const url = "https://rickandmortyapi.com/api/character";
+  const url =
+    "https://rickandmortyapi.com/api/character" + `?page=${currentPage}`;
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log("Data: ", data);
-    const dataProperties = await data.results;
-    console.log(dataProperties);
-    dataProperties.forEach((element) => {
+    console.log(data);
+    /* const dataProperties = await data.results; */ //deleted this because 'data.results.forEach((ele...' reduces code
+
+    data.results.forEach((element) => {
       const {
         image: imageSrc,
         name: characterName,
@@ -41,13 +42,15 @@ async function fetchCharacters() {
       );
       cardContainer.append(newCard);
     });
-
+    // ******************************** ERROR HANDLING
     if (!response.ok) {
       throw new Error(`Request failed with status code: ${response.status}`);
     }
-    return await dataProperties;
+    return data; //changed here dataProperties to data because we need the whole obj not just the properties to be returned for task4
   } catch (error) {
-    return { error: error.message };
+    console.error("fetchData error:", error.message);
+    return { error };
   }
 }
+
 fetchCharacters();
