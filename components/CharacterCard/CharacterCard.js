@@ -1,4 +1,4 @@
-export default function createCharacterCard(
+export function createCharacterCard(
   imageSrc,
   characterName,
   characterDescription,
