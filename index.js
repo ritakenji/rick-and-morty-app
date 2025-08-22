@@ -57,4 +57,4 @@ export async function fetchCharacters(currentPage) {
 handleSubmitButtons();
 handleSearchBar();
 
-fetchCharacters();
+fetchCharacters(currentPage);
