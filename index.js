@@ -13,11 +13,12 @@ const pagination = document.querySelector('[data-js="pagination"]');
 // States
 let currentPage = 1; // changed to let cause const cant be reassigned
 let maxPages; //needs to be able to change
-const searchQuery = "";
+let crazyData;
+let searchQuery = "";
 
-async function fetchCharacters(currentPage) {
+async function fetchCharacters(currentPage, searchQuery) {
   cardContainer.innerHTML = " ";
-  const url = `https://rickandmortyapi.com/api/character?page=${currentPage}`; //this needs to be tested after merging
+  const url = `https://rickandmortyapi.com/api/character?page=${currentPage}&name=${searchQuery}`; //this needs to be tested after merging
   try {
     const response = await fetch(url); //Once this promise resolves (the network request is finished), we call the .json method on the response variable.
     if (!response.ok) {
@@ -104,3 +105,18 @@ nextButton.addEventListener("click", () => {
     nextButton.style.display = "none"; //will test this after merging because im not about to click the button 42 times to find out lol
   }
 });
+
+searchBar.addEventListener("submit", (event) => {
+  event.preventDefault();
+  const formData = new FormData(event.target);
+  const data = Object.fromEntries(formData);
+  searchQuery = data.query;
+  console.log("searchQuery :", searchQuery);
+  fetchCharacters(currentPage);
+});
+/*const result = string.filter((string) =>
+	string.toLowerCase().includes("next")
+);
+
+parameter -> callback functiom
+return -> an array of element*/
