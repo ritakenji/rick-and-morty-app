@@ -18,7 +18,7 @@ const searchQuery = "";
 async function fetchCharacters() {
   cardContainer.innerHTML = " ";
   const url =
-    "https://rickandmortyapi.com/api/character" + `?page=${currentPage}`;
+    "https://rickandmortyapi.com/api/character" + `?page=${currentPage}`; //this needs to be tested after merging
   try {
     const response = await fetch(url); //Once this promise resolves (the network request is finished), we call the .json method on the response variable.
     if (!response.ok) {
@@ -58,8 +58,26 @@ async function fetchCharacters() {
 
 // *********************************************** PAGINATION *****************************************************************
 fetchCharacters().then((data) => {
-  // The 'data' variable here is the data returned by the promise.
+  //checked out the handout+asked gemini and found this solution to using data outside of fetchcharacter function
+  // data returned by the fetch
   maxPages = data.info.pages;
-
-  
+  prevButton.addEventListener("click", () => {
+    if (currentPage > 1) {
+      currentPage--;
+      fetchCharacters();
+      pagination.textContent = `${currentPage} / ${maxPages}`;
+    } else {
+      prevButton.style.display = "none"; //this doesnt seem to work, probably because the button is already there on the html
+      //prevButton.setAttribute("disabled", true); //another option
+    }
+  });
+  nextButton.addEventListener("click", () => {
+    if (currentPage < maxPages) {
+      currentPage++;
+      fetchCharacters();
+      pagination.textContent = `${currentPage} / ${maxPages}`;
+    } else {
+      nextButton.style.display = "none"; //will test this after merging because im not about to click the button 42 times to find out lol
+    }
+  });
 });
