@@ -10,8 +10,9 @@ const prevButton = document.querySelector('[data-js="button-prev"]');
 const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
-// States 
+// States
 let currentPage = 1; // changed to let cause const cant be reassigned
+let maxPages; //needs to be able to change
 const searchQuery = "";
 
 async function fetchCharacters(currentPage) {
@@ -23,7 +24,8 @@ async function fetchCharacters(currentPage) {
       throw new Error(`Request failed with status code: ${response.status}`);
     }
     const data = await response.json(); //This second promise resolves with the actual data (payload) converted from JSON (a formatted string) to a JavaScript value or object. This result is stored in the variable named data.
-
+    maxPages = data.info.pages;
+    pagination.textContent = `${currentPage} / ${maxPages}`;
     // ***************************************** GET ELEMENTS & CREATE NEW CARD **************************************************************
     data.results.forEach((element) => {
       const {
@@ -45,11 +47,11 @@ async function fetchCharacters(currentPage) {
 
     // *********************************************** ERROR HANDLING **************************************************************
 
-    return data;
+    //return data;we don't need it
   } catch (error) {
     console.error("Fetch error:", error.message);
     cardContainer.innerHTML = `<p>Error: ${error.message}</p>`;
-    return { error: error.message };
+    //return { error: error.message }; we're not using the return value
   }
 }
 
@@ -58,7 +60,7 @@ async function fetchCharacters(currentPage) {
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> VERSION 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
 /* fetchCharacters().then((data) => {
-const maxPages = data.info.pages; 
+let maxPages = data.info.pages; //needs to be able to change
 fetchCharacters();
 prevButton.addEventListener("click", () => {
   if (currentPage > 1) {
@@ -82,7 +84,6 @@ nextButton.addEventListener("click", () => {
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OR VERSION 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-const maxPages = 42;
 fetchCharacters(currentPage);
 prevButton.addEventListener("click", () => {
   if (currentPage > 1) {
