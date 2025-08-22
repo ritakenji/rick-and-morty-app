@@ -11,11 +11,10 @@ const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
 // States --> i changed the names of the variables here to make them more intuitive
-let maxPages = 1; // changed to let cause const cant be reassigned
-let currentPage = 1;
+let currentPage = 1; // changed to let cause const cant be reassigned
 const searchQuery = "";
 
-async function fetchCharacters() {
+async function fetchCharacters(currentPage) {
   cardContainer.innerHTML = " ";
   const url =
     "https://rickandmortyapi.com/api/character" + `?page=${currentPage}`; //this needs to be tested after merging
@@ -28,7 +27,6 @@ async function fetchCharacters() {
 
     // ***************************************** GET ELEMENTS & CREATE NEW CARD **************************************************************
     data.results.forEach((element) => {
-      /* const dataProperties = await data.results; */ //deleted this because 'data.results.forEach((ele...' reduces code
       const {
         image: imageSrc,
         name: characterName,
@@ -48,7 +46,7 @@ async function fetchCharacters() {
 
     // *********************************************** ERROR HANDLING **************************************************************
 
-    return data; //changed here dataProperties to data because we need the whole obj not just the properties to be returned for task4
+    return data; 
   } catch (error) {
     console.error("Fetch error:", error.message);
     cardContainer.innerHTML = `<p>Error: ${error.message}</p>`;
@@ -57,27 +55,53 @@ async function fetchCharacters() {
 }
 
 // *********************************************** PAGINATION *****************************************************************
-fetchCharacters().then((data) => {
-  //checked out the handout+asked gemini and found this solution to using data outside of fetchcharacter function
-  // data returned by the fetch
-  maxPages = data.info.pages;
-  prevButton.addEventListener("click", () => {
-    if (currentPage > 1) {
-      currentPage--;
-      fetchCharacters();
-      pagination.textContent = `${currentPage} / ${maxPages}`;
-    } else {
-      prevButton.style.display = "none"; //this doesnt seem to work, probably because the button is already there on the html
-      //prevButton.setAttribute("disabled", true); //another option
-    }
-  });
-  nextButton.addEventListener("click", () => {
-    if (currentPage < maxPages) {
-      currentPage++;
-      fetchCharacters();
-      pagination.textContent = `${currentPage} / ${maxPages}`;
-    } else {
-      nextButton.style.display = "none"; //will test this after merging because im not about to click the button 42 times to find out lol
-    }
-  });
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> VERSION 1 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+/* fetchCharacters().then((data) => {
+const maxPages = data.info.pages; 
+fetchCharacters();
+prevButton.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    fetchCharacters();
+    pagination.textContent = `${currentPage} / ${maxPages}`;
+  } else {
+    prevButton.style.display = "none"; //this doesnt seem to work, probably because the button is already there on the html
+    //prevButton.setAttribute("disabled", true); //another option
+  }
 });
+nextButton.addEventListener("click", () => {
+  if (currentPage < maxPages) {
+    currentPage++;
+    fetchCharacters();
+    pagination.textContent = `${currentPage} / ${maxPages}`;
+  } else {
+    nextButton.style.display = "none"; //will test this after merging because im not about to click the button 42 times to find out lol
+  }
+}); */
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OR VERSION 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+
+const maxPages = 42; 
+fetchCharacters(currentPage);
+prevButton.addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    fetchCharacters(currentPage);
+    pagination.textContent = `${currentPage} / ${maxPages}`;
+  } else {
+    prevButton.style.display = "none"; //this doesnt seem to work, probably because the button is already there on the html
+    //prevButton.setAttribute("disabled", true); //another option
+  }
+});
+nextButton.addEventListener("click", () => {
+  if (currentPage < maxPages) {
+    currentPage++;
+    fetchCharacters(currentPage);
+    pagination.textContent = `${currentPage} / ${maxPages}`;
+  } else {
+    nextButton.style.display = "none"; //will test this after merging because im not about to click the button 42 times to find out lol
+  }
+});
+
