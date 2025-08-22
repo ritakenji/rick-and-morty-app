@@ -10,14 +10,13 @@ const prevButton = document.querySelector('[data-js="button-prev"]');
 const nextButton = document.querySelector('[data-js="button-next"]');
 const pagination = document.querySelector('[data-js="pagination"]');
 
-// States --> i changed the names of the variables here to make them more intuitive
+// States 
 let currentPage = 1; // changed to let cause const cant be reassigned
 const searchQuery = "";
 
 async function fetchCharacters(currentPage) {
   cardContainer.innerHTML = " ";
-  const url =
-    "https://rickandmortyapi.com/api/character" + `?page=${currentPage}`; //this needs to be tested after merging
+  const url = `https://rickandmortyapi.com/api/character?page=${currentPage}`; //this needs to be tested after merging
   try {
     const response = await fetch(url); //Once this promise resolves (the network request is finished), we call the .json method on the response variable.
     if (!response.ok) {
@@ -46,7 +45,7 @@ async function fetchCharacters(currentPage) {
 
     // *********************************************** ERROR HANDLING **************************************************************
 
-    return data; 
+    return data;
   } catch (error) {
     console.error("Fetch error:", error.message);
     cardContainer.innerHTML = `<p>Error: ${error.message}</p>`;
@@ -83,7 +82,7 @@ nextButton.addEventListener("click", () => {
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> OR VERSION 2 <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
-const maxPages = 42; 
+const maxPages = 42;
 fetchCharacters(currentPage);
 prevButton.addEventListener("click", () => {
   if (currentPage > 1) {
@@ -104,4 +103,3 @@ nextButton.addEventListener("click", () => {
     nextButton.style.display = "none"; //will test this after merging because im not about to click the button 42 times to find out lol
   }
 });
-
